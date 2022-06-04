@@ -130,11 +130,99 @@ def format_0(user_list, pass_list, sep, output):
     min, sec = divmod(sec, 60)
     hours, min = divmod(min, 60)
 
-    print("Time passed: {}h:{}m:{}s".format(hours,min,sec))
+    print(Yellow+"Time passed: {}h:{}m:{}s".format(hours,min,sec)+Reset)
     if Path(output).is_file():
         output_file = os.path.abspath(str(output))
-    print("Your output file is stored: {}".format(output_file))
+    print(Yellow+"Your output file is stored: "+Underline+"{}".format(output_file)+Reset)
 
+# Function for format1
+def format_1(word_list, sep):
+    start_time = int(str(time.time()).split(".")[0])  # Start Time
+    list_u = sorted(list(set([u.split(str(sep))[0] for u in word_list])))
+    list_p = sorted(list(set([p.split(str(sep))[1] for p in word_list])))
+    #w = os.path.basename(word_list).split(".")[0]
+    user_f = "Wordlist-" + "usernames.txt"
+    pass_f = "Wordlist-" + "passwords.txt"
+
+    with open(user_f, "w") as u:
+        u.write("\n".join(str(i) for i in list_u))
+
+    with open(pass_f, "w") as p:
+        p.write("\n".join(str(i) for i in list_p))
+
+    end_time = int(str(time.time()).split(".")[0])  # End Time
+    sec = int(end_time) - int(start_time)
+
+    min, sec = divmod(sec, 60)
+    hours, min = divmod(min, 60)
+    print(Yellow+"Time passed: {}h:{}m:{}s".format(hours, min, sec)+Reset)
+    print(Yellow+"Your usernames file: "+Underline+"{}".format(os.path.abspath(user_f))+Reset)
+    print(Yellow+"Your passwords file: "+Underline+"{}".format(os.path.abspath(pass_f))+Reset)
+
+# Function for format2
+def format_2(word_list, num):
+    start_time = int(str(time.time()).split(".")[0])  # Start Time
+    tot_lines = len(word_list)
+    num = int(num)
+    line_split = tot_lines // num
+    list_of_filename = []
+    for i in range(num):
+        if i == num-1:
+            filename = "wordlist-"+str(i+1)+".txt"
+            with open(filename, "w") as file:
+                file.write("\n".join(str(i) for i in word_list[line_split * i:]))
+            list_of_filename.append(filename)
+        else:
+            filename = "wordlist-"+str(i+1)+".txt"
+            with open(filename, "w") as file:
+                file.write("\n".join(str(i) for i in word_list[line_split * i : line_split * ( i + 1 )]))
+            list_of_filename.append(filename)
+
+    end_time = int(str(time.time()).split(".")[0])  # End Time
+    sec = int(end_time) - int(start_time)
+
+    min, sec = divmod(sec, 60)
+    hours, min = divmod(min, 60)
+    print(Yellow+"Time passed: {}h:{}m:{}s".format(hours, min, sec)+Reset)
+    print(Yellow + "Your Wordlists locations are: "+Reset)
+    for f in list_of_filename:
+        print("\t"+Yellow+Underline+os.path.abspath(f)+Reset)
+
+# Function for format3
+def format_3(word_list):
+    start_time = int(str(time.time()).split(".")[0])  # Start Time
+    random.shuffle(word_list)
+    output = "wordlist_shuffled.txt"
+    with open(output, "w") as file:
+        file.write("\n".join(str(i) for i in word_list))
+
+
+
+    end_time = int(str(time.time()).split(".")[0])  # End Time
+    sec = int(end_time) - int(start_time)
+    min, sec = divmod(sec, 60)
+    hours, min = divmod(min, 60)
+    print(Yellow+"Time passed: {}h:{}m:{}s".format(hours, min, sec)+Reset)
+    print(Yellow + "Your Wordlist Shuffled location is: "+Underline+"{}".format(os.path.abspath(output))+Reset)
+
+# Function for format4
+def format_4(word_list, order):
+    start_time = int(str(time.time()).split(".")[0])  # Start Time
+    if int(order) == 0:
+        list_sorted = sorted(word_list)
+    elif int(order) == 1:
+        list_sorted = sorted(word_list, reverse=True)
+
+    output = "wordlist_sorted.txt"
+    with open(output, "w") as file:
+        file.write("\n".join(str(i) for i in list_sorted))
+
+    end_time = int(str(time.time()).split(".")[0])  # End Time
+    sec = int(end_time) - int(start_time)
+    min, sec = divmod(sec, 60)
+    hours, min = divmod(min, 60)
+    print(Yellow+"Time passed: {}h:{}m:{}s".format(hours, min, sec)+Reset)
+    print(Yellow + "Your Wordlist Sorted location is: "+Underline+"{}".format(os.path.abspath(output))+Reset)
 ##############################################################################################################################################
 ##############################################################################################################################################
 
@@ -214,37 +302,52 @@ args = parser.parse_args()
 
 ##############################################################################################################################################
 ################################################################ Main Porgram ################################################################
-if __name__ == '__main__':
+def main():
     print(banner())
     if args.command == "format0":
-        #print("format0")
         usernames = args.uL
         passwords = args.pL
         separator = args.sep
         output = args.o
-        usernames_liste = file_to_list(usernames)
-        passwords_liste = file_to_list(passwords)
-        # print(usernames_liste)
-        # print(passwords_liste)
-        format_0(usernames_liste, passwords_liste, separator, output)
+        usernames_list = file_to_list(usernames)
+        passwords_list = file_to_list(passwords)
+
+        format_0(usernames_list, passwords_list, separator, output)
+
     elif args.command == "format1":
-        print("format1")
         wordlist = args.wL
         separator = args.sep
-        print(wordlist, separator)
+        wordlist_list = file_to_list(wordlist)
+
+        format_1(wordlist_list, separator)
+
     elif args.command == "format2":
-        print("format2")
         wordlist = args.wL
         number = args.n
-        print(wordlist, number)
+        wordlist_list = file_to_list(wordlist)
+
+        format_2(wordlist_list, number)
+
     elif args.command == "format3":
-        print("format3")
         wordlist = args.wL
-        print(wordlist)
+        wordlist_list = file_to_list(wordlist)
+
+        format_3(wordlist_list)
+
     elif args.command == "format4":
-        print("format4")
         wordlist = args.wL
         order = args.order
-        print(wordlist, order)
+        wordlist_list = file_to_list(wordlist)
+
+        format_4(wordlist_list, order)
+
+
+
+if __name__ == '__main__':
+    #try:
+    main()
+    #except Exception as e:
+    #    exit_err(str(e))
+
 ##############################################################################################################################################
 ##############################################################################################################################################
