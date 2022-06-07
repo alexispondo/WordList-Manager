@@ -50,6 +50,9 @@ brother_info = {
     name[0] = str(name[0]).upper()
     return "".join(name)"""
 
+def remove_duplicate(x):
+  return list(dict.fromkeys(x))
+
 # reverse data
 def reverse(data):
     l = len(data)
@@ -247,7 +250,7 @@ def transformation_surname(surname:str):
     surname_list = surname_list + n_l
 
     #print(sorted(surname_list))
-    #print(sorted(list(set(surname_list))))
+    #print(sorted(remove_duplicate(surname_list)))
     surname_list = list(filter(None, surname_list))
     return surname_list
 
@@ -314,7 +317,71 @@ def transformation_name_surname(name, surname):
         s_name = s_name + transformation_surname(name + " " + s)
     s_name = s_name + transformation_surname(name + " " + surname)
     return s_name
+"""
+def transformation_nsk_birthday(name, surname, nickname, birthday):
+    list_returned = []
+    day, month, year = birthday.split("/")
+    s_year = year[2:]
+    date_liste = [day, month, year, s_year]
+    n = name + " " + surname + " " + nickname
+    l5 = []
+    for l51 in n.split(" "):
+        l5 = l5 + transformation_surname(l51)
+    l5 = l5 + transformation_surname(n)
 
+    n_l = []
+    for n0 in l5:
+        for d in date_liste:
+            n_l.append(n0 + "" + d)
+            n_l.append(n0 + "_" + d)
+
+        n_l.append(n0 + "" + day+month+year)
+        n_l.append(n0 + "" + month+year)
+        n_l.append(n0 + "" +year+month)
+        n_l.append(n0 + "" +year+month+day)
+
+        n_l.append(n0 + "_" + day+month+year)
+        n_l.append(n0 + "_" + month+year)
+        n_l.append(n0 + "_" +year+month)
+        n_l.append(n0 + "_" +year+month+day)
+
+
+    list_returned = list_returned + n_l
+    list_returned.append(day)
+    list_returned.append(month)
+    list_returned.append(year)
+    list_returned.append(s_year)
+    list_returned.append(day+month+year)
+    list_returned.append(year+month+day)
+    return list_returned"""
+def transformation_nsk_birthday(data_list, birthday):
+    list_returned = []
+    day, month, year = birthday.split("/")
+    s_year = year[2:]
+    date_liste = [day, month, year, s_year]
+    n_l = []
+    for n0 in data_list:
+        for d in date_liste:
+            n_l.append(n0 + "" + d)
+            n_l.append(n0 + "_" + d)
+
+        n_l.append(n0 + "" + day + month + year)
+        n_l.append(n0 + "" + month + year)
+        n_l.append(n0 + "" + year + month)
+        n_l.append(n0 + "" + year + month + day)
+
+        n_l.append(n0 + "_" + day + month + year)
+        n_l.append(n0 + "_" + month + year)
+        n_l.append(n0 + "_" + year + month)
+        n_l.append(n0 + "_" + year + month + day)
+    list_returned = list_returned + n_l
+    list_returned.append(day)
+    list_returned.append(month)
+    list_returned.append(year)
+    list_returned.append(s_year)
+    list_returned.append(day+month+year)
+    list_returned.append(year+month+day)
+    return list_returned
 ############################################################################################################
 ############################################################################################################
 
@@ -323,63 +390,94 @@ def transformation_name_surname(name, surname):
 
 def program(all_info:dict):
     wordlist_list = []
-    # personal
+
+    # Target
     personal = all_info["personal_info"]
-    print("[*] Transformation Name ... ",end="")
-    personal_name = sorted(list(set(transformation_name(personal["Personal_Name"]))))
-    print("OK")
+    if personal["Personal_Name"] is not None:
+        print("[*] Transformation Name ... ",end="")
+        personal_name = sorted(remove_duplicate(transformation_name(personal["Personal_Name"])))
+        wordlist_list = wordlist_list + personal_name
+        print("OK")
 
-    print("[*] Transformation surmane ... ",end="")
-    personal_surname = sorted(list(set(transformation_surname(personal["Personal_Surnames"]))))
-    print("OK")
+    if personal["Personal_Surnames"] is not None:
+        print("[*] Transformation surmane ... ",end="")
+        personal_surname = sorted(remove_duplicate(transformation_surname(personal["Personal_Surnames"])))
+        wordlist_list = wordlist_list + personal_surname
+        print("OK")
 
-    print("[*] Transformation nickname ... ",end="")
-    personal_nickname = sorted(list(set(transformation_name(personal["Personal_Nickname"]))))
-    print("OK")
+    if personal["Personal_Nickname"] is not None:
+        print("[*] Transformation nickname ... ",end="")
+        personal_nickname = sorted(remove_duplicate(transformation_name(personal["Personal_Nickname"])))
+        wordlist_list = wordlist_list + personal_nickname
+        print("OK")
 
-    print("[*] Transformation birthday ... ",end="")
-    personal_birthday = sorted(list(set(transformation_date(personal["Personal_Birthday"]))))
-    print("OK")
+    if personal["Personal_Birthday"] is not None:
+        print("[*] Transformation birthday ... ",end="")
+        personal_birthday = sorted(remove_duplicate(transformation_date(personal["Personal_Birthday"])))
+        wordlist_list = wordlist_list + personal_birthday
+        print("OK")
 
-    print("[*] Transformation petname ... ",end="")
-    pet_name = sorted(list(set(transformation_name(personal["Pet_Name"]))))
-    print("OK")
+    if personal["Pet_Name"] is not None:
+        print("[*] Transformation petname ... ",end="")
+        pet_name = sorted(remove_duplicate(transformation_name(personal["Pet_Name"])))
+        wordlist_list = wordlist_list + pet_name
+        print("OK")
 
-    print("[*] Transformation company ... ",end="")
-    company_name = sorted(list(set(transformation_company_school(personal["Company_Name"]))))
-    print("OK")
+    if personal["Company_Name"] is not None:
+        print("[*] Transformation company ... ",end="")
+        company_name = sorted(remove_duplicate(transformation_company_school(personal["Company_Name"])))
+        wordlist_list = wordlist_list + company_name
+        print("OK")
 
-    print("[*] Transformation name & surname ... ",end="")
-    personal_name_surname = sorted(list(set(transformation_name_surname(personal["Personal_Name"],personal["Personal_Surnames"]))))
-    print("OK")
+    if personal["Personal_Name"] is not None and personal["Personal_Surnames"] is not None:
+        print("[*] Transformation name & surname ... ",end="")
+        personal_name_surname = sorted(remove_duplicate(transformation_name_surname(personal["Personal_Name"],personal["Personal_Surnames"])))
+        wordlist_list = wordlist_list + personal_name_surname
+        print("OK")
 
-    print("[*] Transformation name & nickname ... ",end="")
-    personal_name_nickname = sorted(list(set(transformation_name_surname(personal["Personal_Name"],personal["Personal_Nickname"]))))
-    print("OK")
+    if personal["Personal_Name"] is not None and personal["Personal_Nickname"] is not None:
+        print("[*] Transformation name & nickname ... ",end="")
+        personal_name_nickname = sorted(remove_duplicate(transformation_name_surname(personal["Personal_Name"],personal["Personal_Nickname"])))
+        wordlist_list = wordlist_list + personal_name_nickname
+        print("OK")
 
-    print("[*] Transformation nickname & surname ... ",end="")
-    personal_nickname_surname = sorted(list(set(transformation_name_surname(personal["Personal_Nickname"],personal["Personal_Surnames"]))))
-    print("OK")
+    if personal["Personal_Surnames"] is not None and personal["Personal_Nickname"] is not None:
+        print("[*] Transformation nickname & surname ... ",end="")
+        personal_nickname_surname = sorted(remove_duplicate(transformation_name_surname(personal["Personal_Nickname"],personal["Personal_Surnames"])))
+        wordlist_list = wordlist_list + personal_nickname_surname
+        print("OK")
+
+    if personal["Personal_Birthday"] is not None:
+        dat00 = wordlist_list.copy()
+        print("[*] Transformation name & surname & nickname & birthday ... ",end="")
+        #personal_nsk_birthday = sorted(remove_duplicate(transformation_nsk_birthday(personal["Personal_Name"],personal["Personal_Surnames"],personal["Personal_Nickname"],personal["Personal_Birthday"])))
+        personal_nsk_birthday = sorted(remove_duplicate(transformation_nsk_birthday(dat00, personal["Personal_Birthday"])))
+        wordlist_list = wordlist_list + personal_nsk_birthday
+        print("OK")
+
+    if personal["Personal_Birthday"] is not None and personal["Pet_Name"] is not None:
+        dat00 = wordlist_list.copy()
+        print("[*] Transformation PetName & birthday ... ",end="")
+        #personal_nsk_birthday = sorted(remove_duplicate(transformation_nsk_birthday(personal["Personal_Name"],personal["Personal_Surnames"],personal["Personal_Nickname"],personal["Personal_Birthday"])))
+        personal_nsk_birthday = sorted(remove_duplicate(transformation_nsk_birthday(dat00, personal["Personal_Birthday"])))
+        wordlist_list = wordlist_list + personal_nsk_birthday
+        print("OK")
 
     print("[*] Join all and writing ... ",end="")
-    wordlist_list = wordlist_list + \
-                    personal_name + \
-                    personal_surname + \
-                    personal_nickname + \
-                    personal_birthday + \
-                    pet_name + \
-                    company_name + \
-                    personal_name_surname + personal_name_nickname + personal_nickname_surname
+    #wordlist_list = wordlist_list + personal_name + personal_surname + personal_nickname + personal_birthday + pet_name + company_name + personal_name_surname + \
+    #                personal_name_nickname + personal_nickname_surname + personal_nsk_birthday
+    wordlist_list = sorted(remove_duplicate(wordlist_list))
     with open("dict.txt", "w") as d:
         d.write("\n".join(str(i) for i in wordlist_list))
+        d.write("\n")
     print(": OK")
 
 all_info = {
     "personal_info" : {
-        "Personal_Name": "bamba",
-        "Personal_Surnames": "gninanton charles",
-        "Personal_Nickname": "bgdc",
-        "Personal_Birthday": "01/01/2000",
+        "Personal_Name": "pondo",
+        "Personal_Surnames": "kouakou alexis",
+        "Personal_Nickname": "pkaba",
+        "Personal_Birthday": "23/12/1999",
         "Pet_Name": "Hydra",
         "Company_Name": "Hacking Corporation",
     }
