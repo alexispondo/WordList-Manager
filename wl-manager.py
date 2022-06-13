@@ -3,10 +3,14 @@ Coded By Alexis Pondo
 Github: http://github.com/alexispondo/
 Linkedin: https://www.linkedin.com/in/alexis-pondo/
 """
+from src import generator
+from src import interactive_mode
+
 from datetime import datetime
 import time
 import os
 from pathlib import Path
+import json
 import tempfile
 import itertools as IT
 import platform
@@ -227,6 +231,26 @@ def format_4(word_list, order):
 ##############################################################################################################################################
 
 
+# Function for generation of wordlist
+def generation(load):
+    time.sleep(1)
+    if load == None:
+        # get dictionary from questions
+        param = interactive_mode.getparams()
+        time.sleep(1)
+        generator.program(param)
+    else:
+        if Path(load).is_file():
+            with open(load, "r") as params:
+                p = json.loads(params.read())
+                generator.program(p)
+        else:
+            exit_err("Generate (Load) error: The Path of your file \"{}\" is not correct !".format(load))
+
+##############################################################################################################################################
+##############################################################################################################################################
+
+
 ##############################################################################################################################################
 ################################################################### Parser ###################################################################
 parser = argparse.ArgumentParser(
@@ -280,6 +304,9 @@ format4.add_argument("--order", type=str, choices=['0', '1'], default="0", help=
                                                                                 "    0: Ascending order\n"
                                                                                 "    1: Descending order")
 
+generate.add_argument("--load", type=str, required=False, help="Loading the personal data model.\n"
+                                                               "if not specified, the interactive mode will be used")
+
 parser.add_argument("-uL", type=str, required=False, help="Usernames wordlist path")
 parser.add_argument("-pL", type=str, required=False, help="Passwords wordlist path")
 parser.add_argument("-wL", type=str, required=False, help="Wordlist path")
@@ -294,6 +321,8 @@ parser.add_argument("-n", type=str, required=False, help="split in n wordlist eq
 parser.add_argument("--order", type=str, required=False, default="0", help="Order of sorting (default 0):\n"
                                                                            "    0: Ascending order\n"
                                                                            "    1: Descending order")
+parser.add_argument("--load", type=str, required=False, help="Loading the personal data model.\n"
+                                                             "if not specified, the interactive mode will be used")
 
 args = parser.parse_args()
 ##############################################################################################################################################
@@ -341,8 +370,8 @@ def main():
 
         format_4(wordlist_list, order)
 
-
-
+    elif args.command == "generate":
+        generation(args.load)
 if __name__ == '__main__':
     main()
 ##############################################################################################################################################

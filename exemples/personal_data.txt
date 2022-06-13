@@ -1,0 +1,42 @@
+{
+    "personal_info": {
+        "Personal_Name": "Keen",
+        "Personal_Surnames": "Elisabeth",
+        "Personal_Nickname": "Profiler",
+        "Personal_Birthday": "15/12/1980",
+        "Pet_Name": null,
+        "Company_Name": "FBI"
+    },
+
+    "conjoint_info": {
+        "Conjoint_Name": "Keen",
+        "Conjoint_Surnames": "Tom",
+        "Conjoint_Birthday": "15/01/1982"
+    },
+
+    "Child_info": {
+        "Child_Name": "Keen",
+        "Child_Surnames": "Agness",
+        "Child_Birthday": "15/12/2015",
+        "Child_School": null
+    },
+
+    "Father_info": {
+        "Father_Name": "Reddington",
+        "Father_Surnames": "Raimond ray",
+        "Father_Birthday": "15/12/1940"
+    },
+
+    "Mother_info": {
+        "Mother_Name": "Rostova",
+        "Mother_Surnames": "Catalinna",
+        "Mother_Birthday": "10/10/1950"
+    },
+
+    "Brother_info": {
+        "Brother_Name": "Reddington",
+        "Brother_Surnames": "Jennifer",
+        "Brother_Birthday": "02/02/1985"
+    }
+
+}
