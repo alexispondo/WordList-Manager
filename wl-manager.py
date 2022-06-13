@@ -256,9 +256,9 @@ parser = argparse.ArgumentParser(
     epilog="""Exemples:
     python3 wl-manager.py format0 -uL unsernames.txt -pL passwords.txt --sep : -o credentials.txt
     python3 wl-manager.py format1 -wL Wodlist.txt --sep ":"
-    python3 wl-manager.py format2 -wL Wodlist.txt n 5
+    python3 wl-manager.py format2 -wL Wodlist.txt -n 5
     python3 wl-manager.py format3 -wL Wodlist.txt
-    python3 wl-manager.py format3 -wL Wodlist.txt --order 1
+    python3 wl-manager.py format4 -wL Wodlist.txt --order 1
     python3 wl-manager.py generate
     """
 )
