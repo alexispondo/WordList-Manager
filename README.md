@@ -1,7 +1,6 @@
 # TUTORIAL
 Click on the video to see the tutorial:
-
-
+[![How to use WordList-Manager](https://user-images.githubusercontent.com/47490330/173418487-0705257b-4538-4e27-a5f8-385cf46c2b72.png)](https://www.youtube.com/watch?v=388m8EFF294?t=1s "How to use WordList-Manager ")
 
 
 # DESCRIPTION
