@@ -1,21 +1,22 @@
-from threading import Thread
-# from copy import copy
-# My data test
+# Modules imported
 import os
 from pathlib import Path
+##########################################################################
 
+# Terminal colors
 Cyan = "\u001b[36m"
 Bold_Cyan = "\u001b[1;36m"
 Bold_Green = "\u001b[1;92m"
 Bold_Yellow = "\u001b[1;33m"
 Blue = "\u001b[34m"
 Reset = "\u001b[0m"
+##########################################################################
 
 
-
-####################################################################################
+# Sort of sort() function
 def remove_duplicate(x):
   return list(dict.fromkeys(x))
+##########################################################################
 
 # reverse data
 def reverse(data):
@@ -25,6 +26,7 @@ def reverse(data):
     for i in range(l):
         n_d.append(data[(l-1)-i])
     return "".join(n_d)
+##########################################################################
 
 # Replacer function with parameter (text, old letter, new letter, starting position, number of occurrence replaced)
 def replacer_letter(text:str, old:str, new:str, pos_l:int, nb_occ:int):
@@ -43,10 +45,10 @@ def replacer_letter(text:str, old:str, new:str, pos_l:int, nb_occ:int):
                 if ok == nb_occ:
                     return text2
         k=k+1
+##########################################################################
 
 # replace letter by number or special character
 def letter_to_spec_char_num(data):
-    #data = str(data).lower()
     list_change = []
     if "a" in data:
         number_of = data.count("a")
@@ -70,10 +72,12 @@ def letter_to_spec_char_num(data):
 
     if "b" in data:
         number_of = data.count("b")
+        # For 8
         for i in range(number_of):
             for j in range(i, number_of):
                 d = replacer_letter(data, "b", "8", number_of - j, i + 1)
                 list_change.append(d)
+        # For 3
         for i in range(number_of):
             for j in range(i, number_of):
                 d = replacer_letter(data, "b", "3", number_of - j, i + 1)
@@ -81,10 +85,12 @@ def letter_to_spec_char_num(data):
 
     if "e" in data:
         number_of = data.count("e")
+        # For 3
         for i in range(number_of):
             for j in range(i, number_of):
                 d = replacer_letter(data, "e", "3", number_of - j, i + 1)
                 list_change.append(d)
+        # For &
         for i in range(number_of):
             for j in range(i, number_of):
                 d = replacer_letter(data, "e", "&", number_of - j, i + 1)
@@ -92,10 +98,12 @@ def letter_to_spec_char_num(data):
 
     if "l" in data:
         number_of = data.count("l")
+        # For 1
         for i in range(number_of):
             for j in range(i, number_of):
                 d = replacer_letter(data, "l", "1", number_of - j, i + 1)
                 list_change.append(d)
+        # For !
         for i in range(number_of):
             for j in range(i, number_of):
                 d = replacer_letter(data, "l", "!", number_of - j, i + 1)
@@ -103,10 +111,12 @@ def letter_to_spec_char_num(data):
 
     if "i" in data:
         number_of = data.count("i")
+        # For 1
         for i in range(number_of):
             for j in range(i, number_of):
                 d = replacer_letter(data, "i", "1", number_of - j, i + 1)
                 list_change.append(d)
+        # For !
         for i in range(number_of):
             for j in range(i, number_of):
                 d = replacer_letter(data, "i", "!", number_of - j, i + 1)
@@ -114,10 +124,12 @@ def letter_to_spec_char_num(data):
 
     if "s" in data:
         number_of = data.count("s")
+        # For 5
         for i in range(number_of):
             for j in range(i, number_of):
                 d = replacer_letter(data, "s", "5", number_of - j, i + 1)
                 list_change.append(d)
+        # For $
         for i in range(number_of):
             for j in range(i, number_of):
                 d = replacer_letter(data, "s", "$", number_of - j, i + 1)
@@ -151,13 +163,6 @@ def letter_to_spec_char_num(data):
             string = string.replace('t', '7')
     list_change.append(string)
     return list_change
-
-
-
-
-
-
-
 
 
 
@@ -213,8 +218,6 @@ def transformation_surname(surname:str):
         n_l = n_l + letter_to_spec_char_num(i)
     surname_list = surname_list + n_l
 
-    #print(sorted(surname_list))
-    #print(sorted(remove_duplicate(surname_list)))
     surname_list = list(filter(None, surname_list))
     return surname_list
 
@@ -240,7 +243,6 @@ def transformation_date(date:str):
     date_list = list(filter(None, date_list))
     return date_list
 
-
 def transformation_company_school(cpt_or_sch:str):
     cs_list = []
 
@@ -260,64 +262,13 @@ def transformation_company_school(cpt_or_sch:str):
 
     return cs_list
 
-"""def transformation_name_surname(name_list:list, surname_list:list):
-    list_returned = []
-    for n in name_list:
-        for s in surname_list:
-            list_returned = list_returned + transformation_surname(n +" "+ s.split(" ")[0])
-            list_returned = list_returned + transformation_surname(n +"_"+ s.split(" ")[0])
-            list_returned = list_returned + transformation_surname(n +"-"+ s.split(" ")[0])
-            list_returned = list_returned + transformation_surname(n + s.split(" ")[0])
-
-            list_returned = list_returned + transformation_surname(n +" "+ s)
-            list_returned = list_returned + transformation_surname(n +"_"+ s)
-            list_returned = list_returned + transformation_surname(n +"-"+ s)
-            list_returned = list_returned + transformation_surname(n + s)
-    return list_returned"""
-
 def transformation_name_surname(name, surname):
     s_name = []
     for s in surname.split(" "):
         s_name = s_name + transformation_surname(name + " " + s)
     s_name = s_name + transformation_surname(name + " " + surname)
     return s_name
-"""
-def transformation_nsk_birthday(name, surname, nickname, birthday):
-    list_returned = []
-    day, month, year = birthday.split("/")
-    s_year = year[2:]
-    date_liste = [day, month, year, s_year]
-    n = name + " " + surname + " " + nickname
-    l5 = []
-    for l51 in n.split(" "):
-        l5 = l5 + transformation_surname(l51)
-    l5 = l5 + transformation_surname(n)
 
-    n_l = []
-    for n0 in l5:
-        for d in date_liste:
-            n_l.append(n0 + "" + d)
-            n_l.append(n0 + "_" + d)
-
-        n_l.append(n0 + "" + day+month+year)
-        n_l.append(n0 + "" + month+year)
-        n_l.append(n0 + "" +year+month)
-        n_l.append(n0 + "" +year+month+day)
-
-        n_l.append(n0 + "_" + day+month+year)
-        n_l.append(n0 + "_" + month+year)
-        n_l.append(n0 + "_" +year+month)
-        n_l.append(n0 + "_" +year+month+day)
-
-
-    list_returned = list_returned + n_l
-    list_returned.append(day)
-    list_returned.append(month)
-    list_returned.append(year)
-    list_returned.append(s_year)
-    list_returned.append(day+month+year)
-    list_returned.append(year+month+day)
-    return list_returned"""
 def transformation_nsk_birthday(data_list, birthday):
     list_returned = []
     day, month, year = birthday.split("/")
@@ -349,12 +300,15 @@ def transformation_nsk_birthday(data_list, birthday):
 ############################################################################################################
 ############################################################################################################
 
+
 ############################################################################################################
 # Main program
-
+############################################################################################################
 def program(all_info:dict):
     wordlist_list = []
-    print(Cyan+"\n\nStarting Generation...\n"+Reset)
+    print(Cyan+"\n\n#####################################################################")
+    print("######################## Starting Generation ########################")
+    print(Cyan + "#####################################################################\n"+Reset)
 
     if "personal_info" in all_info:
         # Personal Info
@@ -369,7 +323,7 @@ def program(all_info:dict):
             print(Bold_Green+"OK"+Reset)
 
         if personal["Personal_Surnames"] is not None:
-            print(Bold_Yellow+"[*] Transformation surmane... "+Reset,end="")
+            print(Bold_Yellow+"[*] Transformation surname... "+Reset,end="")
             personal_surname = sorted(remove_duplicate(transformation_surname(personal["Personal_Surnames"])))
             wordlist_list = wordlist_list + personal_surname
             print(Bold_Green+"OK"+Reset)
@@ -432,7 +386,6 @@ def program(all_info:dict):
         if personal["Personal_Birthday"] is not None:
             dat00 = wordlist_list.copy()
             print(Bold_Yellow+"[*] Transformation name & surname & nickname & birthday... "+Reset,end="")
-            #personal_nsk_birthday = sorted(remove_duplicate(transformation_nsk_birthday(personal["Personal_Name"],personal["Personal_Surnames"],personal["Personal_Nickname"],personal["Personal_Birthday"])))
             personal_nsk_birthday = sorted(remove_duplicate(transformation_nsk_birthday(dat00, personal["Personal_Birthday"])))
             wordlist_list = wordlist_list + personal_nsk_birthday
             print(Bold_Green+"OK"+Reset)
@@ -655,6 +608,7 @@ def program(all_info:dict):
             Brother_nsb = sorted(remove_duplicate(transformation_nsk_birthday(Brother_ns,Brother["Brother_Birthday"])))
             wordlist_list = wordlist_list + Brother_nsb
             print(Bold_Green+"OK"+Reset)
+
     if Path("src/rockyou10000.txt").is_file():
         print(Bold_Cyan+"\n[+] Addition the first 10000 lines of rockyou... "+Reset, end="")
         with open("src/rockyou10000.txt", "r") as r10:
@@ -673,45 +627,45 @@ def program(all_info:dict):
     print(Bold_Green+"\nThe Output of your wordlist can be found in: {}".format(os.path.abspath(output))+Reset)
 
 #all_info = {
-#    "personal_info" : {
-#        "Personal_Name": "pondo",
-#        "Personal_Surnames": "kouakou alexis",
-#        "Personal_Nickname": "pkaba",
-#        "Personal_Birthday": "23/12/1999",
-#        "Pet_Name": "bibou",
-#        "Company_Name": "Cyber Techs",
+#    "personal_info": {
+#        "Personal_Name": "Keen",
+#        "Personal_Surnames": "Elisabeth",
+#        "Personal_Nickname": "Profiler",
+#        "Personal_Birthday": "15/12/1980",
+#        "Pet_Name": null,
+#        "Company_Name": "FBI"
 #    },
+
 #    "conjoint_info": {
-#        "Conjoint_Name": "Affoue",
-#        "Conjoint_Surnames": "jeanne marie",
-#        "Conjoint_Birthday": "10/10/2005",
+#        "Conjoint_Name": "Keen",
+#        "Conjoint_Surnames": "Tom",
+#        "Conjoint_Birthday": "15/01/1982"
 #    },
 
 #    "Child_info": {
-#        "Child_Name": "go",
-#        "Child_Surnames": "buster dirb",
-#        "Child_Birthday": "15/12/2012",
-#        "Child_School": "fusingSchool",
+#        "Child_Name": "Keen",
+#        "Child_Surnames": "Agness",
+#        "Child_Birthday": "15/12/2015",
+#        "Child_School": null
 #    },
 
-#    "Father_info" : {
-#        "Father_Name": "Ping",
-#        "Father_Surnames": "icmp igmp",
-#        "Father_Birthday": "01/06/1970",
+#    "Father_info": {
+#        "Father_Name": "Reddington",
+#        "Father_Surnames": "Raimond ray",
+#        "Father_Birthday": "15/12/1940"
 #    },
 
-#    "Mother_info" : {
-#        "Mother_Name": "ssh",
-#        "Mother_Surnames": "scp tenet",
-#        "Mother_Birthday": "06/12/1990",
+#    "Mother_info": {
+#        "Mother_Name": "Rostova",
+#        "Mother_Surnames": "Catalinna",
+#        "Mother_Birthday": "10/10/1950"
 #    },
 
-#    "Brother_info":{
-#        "Brother_Name": "ffuf",
-#        "Brother_Surnames": "fuzze spride",
-#        "Brother_Birthday": "02/02/2002",
+#    "Brother_info": {
+#        "Brother_Name": "Reddington",
+#        "Brother_Surnames": "Jennifer",
+#        "Brother_Birthday": "02/02/1985"
 #    }
-
 #}
 #program(all_info)
 ############################################################################################################

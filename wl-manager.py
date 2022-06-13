@@ -3,23 +3,20 @@ Coded By Alexis Pondo
 Github: http://github.com/alexispondo/
 Linkedin: https://www.linkedin.com/in/alexis-pondo/
 """
+# Modules imported
 from src import generator
 from src import interactive_mode
-
-from datetime import datetime
 import time
 import os
 from pathlib import Path
 import json
-import tempfile
-import itertools as IT
-import platform
 import sys
 import random
-
 import argparse
 from argparse import RawTextHelpFormatter, SUPPRESS
+####################################################
 
+# Terminal colors
 Black = "\u001b[30m"
 Red = "\u001b[31m"
 Green = "\u001b[32m"
@@ -31,12 +28,11 @@ Cyan = "\u001b[36m"
 White = "\u001b[37m"
 Reset = "\u001b[0m"
 Underline = "\u001b[4m"
+#####################################################
 
 # Exit function with message
 exit_err = lambda x: sys.exit(Red + str(x) + Reset)
 exit_success = lambda x: sys.exit(Green + str(x) + Reset)
-
-
 ###################################################################
 
 
@@ -105,7 +101,7 @@ def get_encoding(file):
         return magic.Magic(mime_encoding=True).from_file(file)
     except:
         return "utf-8"  # By default
-
+#################################################################
 
 # Function to transform wordlist file in list
 def file_to_list(file):
@@ -116,19 +112,18 @@ def file_to_list(file):
         return lines  # return list
     except Exception as e:
         exit_err(str(e))  # if error return it
+#################################################################
 
 # Function for format0
 def format_0(user_list, pass_list, sep, output):
-    #start_time = str(datetime.now()).split(".")[0] # Start Time
-    start_time = int(str(time.time()).split(".")[0]) # Start Time
-    encoding = get_encoding(pass_list)  # We get encoding of file
+    start_time = int(str(time.time()).split(".")[0])
+    encoding = get_encoding(pass_list)
     with open(output, "w", encoding=encoding) as creds:
         for u in user_list:
             for p in pass_list:
                 line = str(u)+str(sep)+str(p)+"\n"
                 creds.writelines(line)
-    #end_time = str(datetime.now()).split(".")[0]  # End Time
-    end_time = int(str(time.time()).split(".")[0])  # End Time
+    end_time = int(str(time.time()).split(".")[0])
     sec = int(end_time) - int(start_time)
 
     min, sec = divmod(sec, 60)
@@ -138,13 +133,13 @@ def format_0(user_list, pass_list, sep, output):
     if Path(output).is_file():
         output_file = os.path.abspath(str(output))
     print(Yellow+"Your output file is stored: "+Underline+"{}".format(output_file)+Reset)
+#################################################################
 
 # Function for format1
 def format_1(word_list, sep):
-    start_time = int(str(time.time()).split(".")[0])  # Start Time
+    start_time = int(str(time.time()).split(".")[0])
     list_u = sorted(list(set([u.split(str(sep))[0] for u in word_list])))
     list_p = sorted(list(set([p.split(str(sep))[1] for p in word_list])))
-    #w = os.path.basename(word_list).split(".")[0]
     user_f = "Wordlist-" + "usernames.txt"
     pass_f = "Wordlist-" + "passwords.txt"
 
@@ -154,7 +149,7 @@ def format_1(word_list, sep):
     with open(pass_f, "w") as p:
         p.write("\n".join(str(i) for i in list_p))
 
-    end_time = int(str(time.time()).split(".")[0])  # End Time
+    end_time = int(str(time.time()).split(".")[0])
     sec = int(end_time) - int(start_time)
 
     min, sec = divmod(sec, 60)
@@ -162,10 +157,11 @@ def format_1(word_list, sep):
     print(Yellow+"Time passed: {}h:{}m:{}s".format(hours, min, sec)+Reset)
     print(Yellow+"Your usernames file: "+Underline+"{}".format(os.path.abspath(user_f))+Reset)
     print(Yellow+"Your passwords file: "+Underline+"{}".format(os.path.abspath(pass_f))+Reset)
+#################################################################
 
 # Function for format2
 def format_2(word_list, num):
-    start_time = int(str(time.time()).split(".")[0])  # Start Time
+    start_time = int(str(time.time()).split(".")[0])
     tot_lines = len(word_list)
     num = int(num)
     line_split = tot_lines // num
@@ -182,7 +178,7 @@ def format_2(word_list, num):
                 file.write("\n".join(str(i) for i in word_list[line_split * i : line_split * ( i + 1 )]))
             list_of_filename.append(filename)
 
-    end_time = int(str(time.time()).split(".")[0])  # End Time
+    end_time = int(str(time.time()).split(".")[0])
     sec = int(end_time) - int(start_time)
 
     min, sec = divmod(sec, 60)
@@ -191,27 +187,27 @@ def format_2(word_list, num):
     print(Yellow + "Your Wordlists locations are: "+Reset)
     for f in list_of_filename:
         print("\t"+Yellow+Underline+os.path.abspath(f)+Reset)
+#################################################################
 
 # Function for format3
 def format_3(word_list):
-    start_time = int(str(time.time()).split(".")[0])  # Start Time
+    start_time = int(str(time.time()).split(".")[0])
     random.shuffle(word_list)
     output = "wordlist_shuffled.txt"
     with open(output, "w") as file:
         file.write("\n".join(str(i) for i in word_list))
 
-
-
-    end_time = int(str(time.time()).split(".")[0])  # End Time
+    end_time = int(str(time.time()).split(".")[0])
     sec = int(end_time) - int(start_time)
     min, sec = divmod(sec, 60)
     hours, min = divmod(min, 60)
     print(Yellow+"Time passed: {}h:{}m:{}s".format(hours, min, sec)+Reset)
     print(Yellow + "Your Wordlist Shuffled location is: "+Underline+"{}".format(os.path.abspath(output))+Reset)
+#################################################################
 
 # Function for format4
 def format_4(word_list, order):
-    start_time = int(str(time.time()).split(".")[0])  # Start Time
+    start_time = int(str(time.time()).split(".")[0])
     if int(order) == 0:
         list_sorted = sorted(word_list)
     elif int(order) == 1:
@@ -221,21 +217,18 @@ def format_4(word_list, order):
     with open(output, "w") as file:
         file.write("\n".join(str(i) for i in list_sorted))
 
-    end_time = int(str(time.time()).split(".")[0])  # End Time
+    end_time = int(str(time.time()).split(".")[0])
     sec = int(end_time) - int(start_time)
     min, sec = divmod(sec, 60)
     hours, min = divmod(min, 60)
     print(Yellow+"Time passed: {}h:{}m:{}s".format(hours, min, sec)+Reset)
     print(Yellow + "Your Wordlist Sorted location is: "+Underline+"{}".format(os.path.abspath(output))+Reset)
-##############################################################################################################################################
-##############################################################################################################################################
-
+#################################################################
 
 # Function for generation of wordlist
 def generation(load):
     time.sleep(1)
     if load == None:
-        # get dictionary from questions
         param = interactive_mode.getparams()
         time.sleep(1)
         generator.program(param)
@@ -246,9 +239,12 @@ def generation(load):
                 generator.program(p)
         else:
             exit_err("Generate (Load) error: The Path of your file \"{}\" is not correct !".format(load))
+#################################################################
 
 ##############################################################################################################################################
 ##############################################################################################################################################
+
+
 
 
 ##############################################################################################################################################
@@ -304,8 +300,9 @@ format4.add_argument("--order", type=str, choices=['0', '1'], default="0", help=
                                                                                 "    0: Ascending order\n"
                                                                                 "    1: Descending order")
 
-generate.add_argument("--load", type=str, required=False, help="Loading the personal data model.\n"
+generate.add_argument("--load", type=str, required=False, help="Generation: Loading the personal data model.\n"
                                                                "if not specified, the interactive mode will be used")
+
 
 parser.add_argument("-uL", type=str, required=False, help="Usernames wordlist path")
 parser.add_argument("-pL", type=str, required=False, help="Passwords wordlist path")
@@ -321,7 +318,7 @@ parser.add_argument("-n", type=str, required=False, help="split in n wordlist eq
 parser.add_argument("--order", type=str, required=False, default="0", help="Order of sorting (default 0):\n"
                                                                            "    0: Ascending order\n"
                                                                            "    1: Descending order")
-parser.add_argument("--load", type=str, required=False, help="Loading the personal data model.\n"
+parser.add_argument("--load", type=str, required=False, help="Generation: Loading the personal data model.\n"
                                                              "if not specified, the interactive mode will be used")
 
 args = parser.parse_args()

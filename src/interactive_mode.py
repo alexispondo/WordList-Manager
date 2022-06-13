@@ -1,11 +1,13 @@
+# Terminal colors
 Cyan = "\u001b[36m"
 Bold_Cyan = "\u001b[1;36m"
 Bold_Green = "\u001b[1;92m"
 Bold_Yellow = "\u001b[1;33m"
 Blue = "\u001b[34m"
 Reset = "\u001b[0m"
+##########################################################################
 
-
+# Functions for questions
 def getparams():
     params = {}
     welcome = """
@@ -13,7 +15,6 @@ Hi, Welcome to interactive mode. You should answered for all question to create 
 
 Great, we can start now.
 """
-
     print(Bold_Yellow+welcome+Reset)
 
     # Personal Information ################################################################################
@@ -226,3 +227,4 @@ Great, we can start now.
     params["Brother_info"] = Brother_info
     print()
     return params
+##########################################################################
